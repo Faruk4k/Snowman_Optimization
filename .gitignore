@@ -1,0 +1,19 @@
+# Build artifacts
+*.o
+snowman
+snowman_profiling
+snowman_scaling
+
+# Output / logs
+*.ppm
+*.out
+*.txt
+*.html
+*.csv
+*.png
+*.log
+logs/
+logs.zip
+gmon.out
+tracing/
+scorep-*/
