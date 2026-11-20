@@ -1,0 +1,584 @@
+% This is a template for theses, reports, and exposés provided by the Behavioural Security Research Group at the University of Bonn. Visit us at https://besec.uni-bonn.de/.
+% The template has been tested exclusively in Overleaf with pdfLaTeX 2023. Should you encounter any issues, please feel free to contact us.
+
+% This file contains all dependencies and general settings. 
+
+% General requirements. Some complex requirements are further down
+
+\RequirePackage[dvipsnames,table,xcdraw]{xcolor}             % Colors (Note: must be loaded early)
+\RequirePackage[printonlyused]{acronym}         % Expand acronyms at least once
+\RequirePackage{amsmath, amsfonts, amssymb}     % Math symbols and fonts
+\RequirePackage[scaled=0.8]{beramono}           % Font
+\RequirePackage{booktabs}                       % Publication quality tables (\toprule, \midrule, \bottomrule)
+\RequirePackage{caption}                        % Customising captions in floating environments
+\RequirePackage{calc}                           % Simple arithmetic in commands
+\RequirePackage{chngcntr}                       % Change the resetting of counters
+\RequirePackage[utf8]{inputenc}                 % For special characters and Umlaute
+\RequirePackage{csquotes}                       % Context sensitive quotation
+\RequirePackage[inline]{enumitem}               % Control layout of itemize, enumerate, description
+\RequirePackage{etoolbox}                       % e-TeX toolbox
+\RequirePackage[T1]{fontenc}                    % Font encoding
+\RequirePackage{geometry}                       % Page geometry
+\RequirePackage{graphicx}                       % Resizing large tables
+\RequirePackage{ifthen}                         % Conditional commands
+\RequirePackage[linktocpage=true]{hyperref}     % Extensive support for hypertext (link page numbers instead of title in table of contents)
+\RequirePackage{listings}                       % Typeset source code listings
+\RequirePackage{longtable}                      % Allow tables to flow over page boundaries
+\RequirePackage{lscape}                         % Place selected parts of a document in landscape
+\RequirePackage{makecell}                       % Tabular column heads and multilined cells (\thead)
+\RequirePackage{microtype}                      % Typographical refinements (letter spacing)
+\RequirePackage{multicol}                       % Intermix single and multiple columns
+\RequirePackage{newfloat}                       % Define new floating environments
+\RequirePackage[numbers]{natbib}                % Bibliography style
+\RequirePackage{palatino}                       % Font
+\RequirePackage{pdfpages}                       % Include PDF documents in LaTeX
+\RequirePackage{pgfgantt}                       % Draw Gantt charts with PGF/TikZ
+\RequirePackage{pgfplots}                       % Create normal/logarithmic plots in two and three dimensions with PGF/TikZ
+\RequirePackage{placeins}                       % Control float placement
+\RequirePackage{setspace}                       % Set space between lines
+\RequirePackage{silence}                        % Selective filtering of error messages and warnings
+\RequirePackage[list=true,listformat=simple]{subcaption}  % Support for sub-captions
+\RequirePackage{tabularx}                       % Tabulars with adjustable-width columns
+\RequirePackage{tikz}                           % Create PostScript and PDF graphics (TikZ)
+\RequirePackage{tikzscale}                      % Support for tikzpictures in \includegraphics
+\RequirePackage{times}                          % Font
+\RequirePackage{xkeyval}                        % Additional macros for setting keys and declaring and setting class or package option
+\RequirePackage{xparse}                         % A generic document command parser
+\RequirePackage{xstring}                        % String manipulation
+
+% --- Custom requirements and settings ---
+% Feel free to extend this template here.
+
+
+
+% --- Layout ---
+% You will likely not need to change anything below.
+
+% Bibliography
+\bibliographystyle{abbrvnat}
+
+% Options for commands and patches that help during writing, but which should be removed in the final version.
+\DeclareOptionX{pagebreaks}{
+    % Adding a page break before every (sub)section
+    \let\oldsection\section
+    \renewcommand\section{\clearpage\oldsection}
+    \let\oldsubsection\subsection
+    \renewcommand\subsection{\clearpage\oldsubsection}
+    \let\oldsubsubsection\subsubsection
+    \renewcommand\subsubsection{\clearpage\oldsubsubsection}
+}
+
+\DeclareOptionX{coloredrefs}{
+    \hypersetup{
+        colorlinks=true,
+        urlcolor=blue,
+        linkcolor=blue,
+        citecolor=blue,
+        linkbordercolor=blue
+    }
+}
+
+\newif\if@edithelpersnotes
+\DeclareOptionX{notes}{\@edithelpersnotestrue}
+
+\newif\if@edithelpersgrid
+\DeclareOptionX{grid}{\@edithelpersgridtrue}
+
+\DeclareOptionX*{\PackageWarning{template}{`\CurrentOption' ignored}}% For unknown options
+
+\ProcessOptionsX\relax
+
+
+\if@edithelpersgrid                                         % this must stand after \ProcessOptions
+    \definecolor{gridcolor}{RGB}{224,224,224}
+    \definecolor{subgridcolor}{RGB}{240,240,240}
+    \RequirePackage[
+        grid,
+        gridBG,
+        gridcolor=gridcolor,
+        subgridcolor=subgridcolor
+    ]{showframe}                          % show grid
+\fi
+
+\hypersetup{
+    breaklinks=true
+}
+
+% Language specific keywords
+
+\newcommand{\setLanguage}[1]{
+    \ifthenelse{\equal{#1}{english}}{
+        \RequirePackage[english]{babel}		% for English keywords like "Abstract"
+
+        % titlepage
+        \newcommand{\getUni}{University of Bonn}
+        \newcommand{\getDepartment}{Institute of Computer Science 4}
+        \newcommand{\getGroup}{Behavioral Security Group}
+    
+        \newcommand{\langAuthor}{Author}
+        \newcommand{\langFirstExaminer}{First Examiner}
+        \newcommand{\langSecondExaminer}{Second Examiner}
+        \newcommand{\langSupervisor}{Supervisor}
+        \newcommand{\langSubmissionDate}{Date of submission}
+    
+        % chapter names
+        \newcommand{\langAbstract}{Abstract}
+        \newcommand{\langStatements}{General statements}
+        \newcommand{\langPreface}{Contents}
+        \renewcaptionname{english}{\contentsname}{Table of Contents}
+        \newcommand{\langTableOfContents}{\contentsname}
+        \newcommand{\langListOfFigures}{List of Figures}
+        \newcommand{\langListOfTables}{List of Tables}
+        \newcommand{\langListOfListings}{List of Listings}
+        \newcommand{\langAcronyms}{List of Acronyms}
+        \newcommand{\langGlossary}{Glossary}
+        \newcommand{\langBibliography}{Bibliography}
+        \newcommand{\langAppendix}{Appendix}
+        \newcommand{\langPlace}{Place}
+        \newcommand{\langDate}{Date}
+        \newcommand{\langSignature}{Signature}
+    }
+    {\ifthenelse{\equal{#1}{ngerman}}{
+        \RequirePackage[ngerman]{babel}		% for English keywords like "Abstract"
+    
+        % titlepage
+        \newcommand{\getUni}{Rheinische Friedrich-Wilhelms-Universität Bonn}
+        \newcommand{\getDepartment}{Institut für Informatik 4}
+        \newcommand{\getGroup}{Behavioral Security Gruppe}
+    
+        \newcommand{\langFirstExaminer}{Erstprüfer}
+        \newcommand{\langSecondExaminer}{Zweitprüfer}
+        \newcommand{\langSupervisor}{Betreuer}
+        \newcommand{\langSubmissionDate}{Abgabedatum}
+    
+        % chapter names
+        \newcommand{\langAbstract}{Zusammenfassung}
+        \newcommand{\langStatements}{Allgemeine Hinweise}
+        \newcommand{\langPreface}{Inhalt}
+        \renewcaptionname{ngerman}{\contentsname}{Inhaltsverzeichnis}
+        \renewcaptionname{ngerman}{\listfigurename}{Abbildungsverzeichnis}
+        \renewcaptionname{ngerman}{\listtablename}{Tabellenverzeichnis}
+        \renewcommand{\lstlistlistingname}{Listingverzeichnis}
+        \newcommand{\langTableOfContents}{\contentsname}
+        \newcommand{\langListOfFigures}{Abbildungsverzeichnis}
+        \newcommand{\langListOfTables}{Tabellenverzeichnis}
+        \newcommand{\langListOfListings}{Listingverzeichnis}
+        \newcommand{\langAcronyms}{Abkürzungsverzeichnis}
+        \newcommand{\langGlossary}{Glossar}
+        \newcommand{\langBibliography}{Literatur}
+        \newcommand{\langAppendix}{Anhang}
+        \newcommand{\langPlace}{Ort}
+        \newcommand{\langDate}{Datum}
+        \newcommand{\langSignature}{Unterschrift}
+    }
+    {\PackageWarning{template}{`\CurrentOption' is not a valid language}}}
+}
+
+% Getters and setters for information
+\newcommand{\setTextTypeImpl}[3]{
+    \newcommand{\getTextType}{#1}
+    \setLanguage{#2}
+    \setTitlepageFile{#3}
+}
+\newcommand{\setTextType}[1]{%
+    \IfStrEqCase{#1}{%
+        {Todo}                          {\setTextTypeImpl{\todo{Text type/Texttyp}}{english}{template/titlepage_none.tex}}%
+        {Master Thesis}                 {\setTextTypeImpl{#1}{english}{template/titlepage_thesis.tex}}%
+        {Lab Report}                    {\setTextTypeImpl{#1}{english}{template/titlepage_report.tex}}%
+        {Seminar Report}                {\setTextTypeImpl{#1}{english}{template/titlepage_report.tex}}%
+        {Internship Report}             {\setTextTypeImpl{#1}{english}{template/titlepage_report.tex}}%
+        {Exposé for a Master Thesis}    {\setTextTypeImpl{#1}{english}{template/titlepage_expose.tex}}%
+        {Exposé for a Lab}              {\setTextTypeImpl{#1}{english}{template/titlepage_expose.tex}}%
+        {Exposé for a Seminar}          {\setTextTypeImpl{#1}{english}{template/titlepage_expose.tex}}%
+        {Exposé for an Internship}      {\setTextTypeImpl{#1}{english}{template/titlepage_expose.tex}}%
+        {Bachelorarbeit}                {\setTextTypeImpl{#1}{ngerman}{template/titlepage_thesis.tex}}%
+        {Projektbericht}                {\setTextTypeImpl{#1}{ngerman}{template/titlepage_report.tex}}%
+        {Seminarbericht}                {\setTextTypeImpl{#1}{ngerman}{template/titlepage_report.tex}}%
+        {Praktikumsbericht}             {\setTextTypeImpl{#1}{ngerman}{template/titlepage_report.tex}}%
+        {Exposé für eine Bachelorarbeit}{\setTextTypeImpl{#1}{ngerman}{template/titlepage_expose.tex}}%
+        {Exposé für eine Projektgruppe} {\setTextTypeImpl{#1}{ngerman}{template/titlepage_expose.tex}}%
+        {Exposé für ein Seminar}        {\setTextTypeImpl{#1}{ngerman}{template/titlepage_expose.tex}}%
+        {Exposé für ein Praktikum}      {\setTextTypeImpl{#1}{ngerman}{template/titlepage_expose.tex}}%
+    }[%
+        \PackageError{Template}{Invalid value for text type: #1}%
+    ]
+}
+                    
+\newcommand{\setTitle}[1]{\newcommand{\getTitle}{#1}}
+\newcommand{\setAuthor}[1]{\newcommand{\getAuthor}{#1}}
+\newcommand{\setEmail}[1]{\newcommand{\getEmail}{#1}}
+\newcommand{\setFirstExaminer}[1]{\newcommand{\getFirstExaminer}{#1}}
+\newcommand{\setSecondExaminer}[1]{\newcommand{\getSecondExaminer}{#1}}
+\newcommand{\setSupervisor}[1]{\newcommand{\getSupervisor}{#1}}
+\newcommand{\setSubmissionDate}[1]{\newcommand{\getSubmissionDate}{#1}}
+\newcommand{\setMatriculationNumber}[1]{\newcommand{\getMatriculationNumber}{#1}}
+\newcommand{\setTitlepageFile}[1]{\newcommand{\getTitlepageFile}{#1}}
+
+
+% KOMA settings
+ % chapters, sections, subsections and subsubsections are numbered and  listed in table of contents, paragraphs and subparagraphs are not
+\setcounter{secnumdepth}{\subsubsectionnumdepth}
+\setcounter{tocdepth}{\subsubsectionnumdepth}
+
+
+% Layout
+\geometry{a4paper, top=27mm, inner=30mm, outer=20mm, bottom=35mm, headsep=10mm, footskip=12mm}
+
+
+% Latex
+\WarningFilter[floatlisthead]{scrartcl}{\float@listhead detected}
+
+
+% Graphics, Tables, Enums, Listings
+\definecolor{groupblue}{RGB}{51,102,254}
+\ganttset{canvas/.append style={fill=none, draw=black!5, line width=.75pt},
+    vgrid={*{6}{draw=none},dashed},
+    progress label text=\relax,
+    group/.append style={fill=groupblue},
+    group incomplete/.append style={fill=groupblue},
+    group left shift=0,
+    group right shift=0,
+    group height=.3,
+    group peaks tip position=0,
+    group progress label font=\bfseries\small,
+    bar/.append style={fill=groupblue, rounded corners=3pt},
+    bar left shift=.1,
+    bar right shift=-.1,
+    bar height=.3,
+    bar label font=\bfseries\small,
+    time slot format=little-endian,
+    x unit=4pt,
+    calendar week text=\currentweek}
+
+\DeclareFloatingEnvironment[fileext=frm, placement={!ht}, name=Listing, within=section]{listing}
+
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadalign{lt}
+
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+\lstset{numbers=left,numberblanklines=false,escapeinside=||}
+\let\origthelstnumber\thelstnumber
+\makeatletter
+\newcommand*\Suppressnumber{%
+  \lst@AddToHook{OnNewLine}{%
+    \let\thelstnumber\relax%
+     \advance\c@lstnumber-\@ne\relax%
+    }%
+}
+
+\newcommand*\Reactivatenumber[1]{%
+  \setcounter{lstnumber}{\numexpr#1-1\relax}
+  \lst@AddToHook{OnNewLine}{%
+   \let\thelstnumber\origthelstnumber%
+   \refstepcounter{lstnumber}
+  }%
+}
+
+\let\othelstnumber=\thelstnumber
+\def\createlinenumber#1#2{
+    \edef\thelstnumber{%
+        \unexpanded{%
+            \ifnum#1=\value{lstnumber}\relax
+              #2%
+            \else}%
+        \expandafter\unexpanded\expandafter{\thelstnumber\othelstnumber\fi}%
+    }
+    \ifx\othelstnumber=\relax\else
+      \let\othelstnumber\relax
+    \fi
+}
+
+
+% Aligns the entries in the List of listings with the ones of the list of tables and list of figures.
+\makeatletter
+	\def\l@lstlisting#1#2{\@dottedtocline{1}{1.5em}{2.45em}{Lst. #1}{#2}}
+\makeatother
+
+
+% Tikz and PGF
+\pgfplotsset{compat=1.17}                       % version of pgfplots for compatibility reasons
+
+
+% Table of Contents style
+\newlength{\listnumwidth}
+\settowidth{\listnumwidth}{Tab. 10\quad}
+\newcommand{\figprefix}{\hspace{1.5em}Fig.\,}
+\newcommand{\tabprefix}{\hspace{1.5em}Tab.\,}
+
+\makeatletter
+
+\renewcommand{\l@figure}[2]{%
+    \@dottedtocline{1}{0em}{\listnumwidth}{\figprefix#1}{#2}}
+\renewcommand{\l@table}[2]{%
+    \@dottedtocline{1}{0em}{\listnumwidth}{\tabprefix#1}{#2}}
+    
+\makeatother
+
+
+\renewcommand{\lstlistlistingname}{List of Listings}
+
+\let\oldlstlistoflistings\lstlistoflistings
+\renewcommand{\lstlistoflistings}{
+    \ActivateWarningFilters[floatlisthead]
+    \oldlstlistoflistings
+    \DeactivateWarningFilters[floatlisthead]
+}
+
+
+% Glossary and Acronyms
+% Note: glossaries must be loaded after babel, hyperref, inputencandfontenc and polyglossia
+
+\RequirePackage[
+    acronym,                % add glossary for acronyms
+    toc=true,               % show in table of contents
+    % numberedsection,        % for indendation in table of contents
+    section,                % use section for title instead of chapter
+    nonumberlist            % no page numbers
+]{glossaries}
+
+
+% Itemize, description, ...
+\makeatletter
+\setlist{
+ 	noitemsep,
+	labelindent=\parindent,
+	leftmargin=*
+}
+\setlist[enumerate]{
+ 	noitemsep,
+	labelindent=\parindent,
+	leftmargin=*
+}
+\makeatother
+
+
+% Chapter headings
+
+\RedeclareSectionCommand[
+    beforeskip=5ex,           % space above title
+    afterskip=3ex,            % space below title
+    afterindent=false         % no indendation on first line after title
+]{chapter}
+
+\RedeclareSectionCommand[
+    beforeskip=1ex,           % space above title
+    afterskip=1ex,            % space below title
+    afterindent=false         % no indendation on first line after title
+]{section}
+
+\renewcommand*\chapterlinesformat[3]{%
+    \fontfamily{ppl}\selectfont\scshape\Large%
+    \setbox0=\hbox{#2\unskip}\ifdim\wd0=0pt
+        #3%
+    \else
+        #2\unskip\hspace{1em}#3%
+    \fi
+    \vspace{1ex}\hrule%
+}
+
+\renewcommand*\sectionlinesformat[4]{%
+    \fontfamily{ppl}\selectfont\scshape%
+    \Ifstr{#1}{section}{\large}{\normalsize}%
+    \setbox0=\hbox{#3\unskip}\ifdim\wd0=0pt
+        #4%
+    \else
+        \setbox0=\hbox{\thechapter\unskip}\ifdim\wd0=0pt
+            #3\unskip\hspace{1em}#4%
+        \else
+            #3\unskip\hspace{1em}#4%
+        \fi
+    \fi
+}
+
+
+% Header and footer
+\RequirePackage[automark,headsepline,footsepline,singlespacing=true]{scrlayer-scrpage}
+\KOMAoptions{onpsinit={\linespread{1}\selectfont}}
+
+\pagestyle{scrheadings}
+\clearpairofpagestyles
+\setkomafont{pageheadfoot}{}
+
+\renewcommand{\chaptermark}[1]{%
+  \markboth{\scshape #1}%
+           {\scshape #1}%
+}
+\renewcommand{\sectionmark}[1]{\markright{\rmfamily\upshape #1}{}}
+\KOMAoption{footsepline}{.4pt}
+%\setlength{\footheight}{30pt}
+
+\lehead{\headmark}
+%\cehead{}
+%\rehead{}
+%\lohead{}
+%\cohead{}
+\rohead{\headmark}
+%\ihead{}
+%\chead{}
+%\ohead{}
+
+\lefoot{Page \thepage}
+%\cefoot{}
+\refoot{\getTitle}
+\lofoot{\getTitle}
+%\cofoot{}
+\rofoot{Page \thepage}
+%\ifoot{}
+%\cfoot{}
+%\ofoot{}
+
+
+\newcommand{\metaChapter}[1]{
+    \chapter*{#1}
+    \addcontentsline{toc}{section}{#1}
+}
+\newcommand{\SSection}[1]{
+    \section*{#1}
+    \addcontentsline{toc}{section}{#1}
+}
+
+
+% use sections for titles of table of contents and list of figures/tables/listings
+\makeatletter
+    \newcommand{\useMetaChapter}[3]{
+        \renewcommand#1{
+            \addsec{#2}%
+            \@mkboth{\MakeUppercase#2}{\MakeUppercase#2}%
+            \@starttoc{#3}%
+        }
+    }
+    \useMetaChapter{\listoffigures}{\listfigurename}{lof}
+    \useMetaChapter{\listoftables}{\listtablename}{lot}
+    \useMetaChapter{\lstlistoflistings}{\lstlistlistingname}{lol}
+\makeatother
+
+\newcommand{\listofacronyms}{
+    \printglossary[type=\acronymtype, title={\langAcronyms}]
+}
+\newcommand{\myglossary}{\printglossary[title={\langGlossary}]}
+
+\setglossarypreamble[acronym]{\vspace*{0.8\baselineskip}}
+\setglossarypreamble{\vspace*{0.8\baselineskip}}
+
+
+% Text style and page layout intro, main, outro and samples
+\raggedbottom                   % spacing between paragraphs is always the same
+
+% intro
+\newcommand{\beginIntro}{
+	\pagenumbering{Roman}
+	\setcounter{page}{1}
+
+	\setstretch{1}
+}
+% main
+\newcommand{\beginContent}{
+    % for two-sided prints a cleardoublepage is necessary because otherwise
+    % the resetting of the page number might cause two directly successive
+    % odd pages which breaks the layout as odd and even lose their meaning
+    \cleardoublepage
+
+	\setcounter{chapter}{0}
+	\setcounter{section}{0}
+
+	\pagenumbering{arabic}
+	\setcounter{page}{1}
+
+	\setstretch{1.0}
+}
+% outro
+\newcommand{\beginClosing}{
+    % for two-sided prints a cleardoublepage is necessary because otherwise
+    % the resetting of the page number might cause two directly successive
+    % odd pages which breaks the layout as odd and even lose their meaning
+    \cleardoublepage
+
+	\pagenumbering{Roman}
+	\setcounter{page}{1}
+
+	\setstretch{1.1}
+}
+% exposé
+\newcommand{\beginExpose}{
+	\pagenumbering{arabic}
+	\setcounter{page}{1}
+
+    \renewcommand*{\thechapter}{}
+    \renewcommand*{\chapterformat}{}% No number no space
+    \renewcommand*{\chaptermarkformat}{}% No number no space
+	\renewcommand{\thesection}{\arabic{section}}
+	\renewcommand{\theHsection}{\arabic{section}}
+    \counterwithout{section}{chapter}
+    % This also results in \renewcommand*{\thesection}{\arabic{section}}
+    \counterwithout{figure}{chapter}
+    \counterwithout{table}{chapter}
+    \counterwithout{equation}{chapter}
+
+	\setstretch{1.25}
+}
+
+\newcommand{\descriptionLeftMargin}{\widthof{\textbf{M}}}
+
+
+% Font
+\renewcommand*\familydefault{\rmdefault}
+\linespread{1.05}
+\renewcommand{\familydefault}{\rmdefault}
+\addtokomafont{descriptionlabel}{\rmfamily}     % acronym, glossary, description, ... labels with serif
+\addtokomafont{disposition}{\rmfamily}          % chapters, sections, ... in toc with serif
+
+\newcommand{\spaced}[1]{\textls[80]{#1}}
+\newcommand{\scspaced}[1]{\textls[80]{\scshape{#1}}}
+
+
+% Penalty for clubs and widows to prevent page breaks after the first or before the last line of a paragraph
+\clubpenalty = 10000
+\widowpenalty = 10000
+\displaywidowpenalty = 10000
+
+
+% add chapter number to the listings number
+\AtBeginDocument{\counterwithin{lstlisting}{chapter}}
+
+
+% layouted box around a listing
+\DeclareFloatingEnvironment{listingsboxfloat}
+
+\NewDocumentEnvironment{listingsbox}{o}{%
+    \begin{listingsboxfloat}[#1]%
+    \begin{singlespacing}%
+	\noindent%
+}{%
+	\end{singlespacing}%
+	\end{listingsboxfloat}%
+}
+
+\newenvironment{sublistingsbox}[1]{%
+	\begin{minipage}[b]{0.48\linewidth}%
+	#1%
+}{%
+	\end{minipage}%
+}
+
+\newcommand{\sublistingssep}{\hspace{0.04\linewidth}}
+
+
+% General statements
+\newcommand{\listOfStatements}{}
+\newcommand{\addStatement}[1]{%
+    \ifdefempty{\listOfStatements}{}{%
+        \gappto{\listOfStatements}{\par\vspace{\baselineskip}}%
+    }%
+    \gappto{\listOfStatements}{\noindent #1}%
+}
+\newcommand{\getStatements}{%
+    \ifdefempty{\listOfStatements}{}{%
+        \vfill
+        \section*{General Statements}%
+        \listOfStatements%
+    }%
+}
+
+\endinput

@@ -1,0 +1,63 @@
+% Language code style definitions for lstlistings
+% 
+% The lstlistings package allows to layout and format source code.
+% You can also define your own language code styles, such as Pseudo below.
+
+% general code style settings
+\lstset{
+	captionpos=b,
+	breaklines=true,
+	showstringspaces=false,
+	tabsize=2,
+	frame=lines,
+	numbers=left,
+	basicstyle=\small\ttfamily,
+	commentstyle=\small\ttfamily,
+	numberstyle=\tiny,
+	xleftmargin=2em,
+	framexleftmargin=2em,
+	showlines=true, 
+	belowskip=-0.25\baselineskip,
+	%aboveskip=2\bigskipamount,
+	literate={ö}{{\"o}}1
+			 {ä}{{\"a}}1
+			 {ü}{{\"u}}1
+			 {ü}{{\"u}}1
+}
+
+
+\lstdefinelanguage{Pseudo}{
+	basicstyle=\footnotesize\normalfont,
+	commentstyle=\footnotesize\normalfont,
+	morekeywords={         % list of keywords
+		and,
+		continue,
+		def,
+		define,
+		delete,
+		elif,
+		else,
+		false,
+		for,
+		forall,
+		if,
+		in,
+		new,
+		not,
+		null,
+		or,
+		return,
+		true,
+		while
+	},
+	alsoletter=-/,
+	tabsize=2,
+	sensitive=true, 		% keywords are not case-sensitive
+	morecomment=[l]{//}, 	% l is for line comment
+	morestring=[b]",		% defines that strings are enclosed in double quotes
+	escapechar=§,
+	moredelim=[is][\scshape]{[*}{*]} 		
+}
+
+
+\endinput

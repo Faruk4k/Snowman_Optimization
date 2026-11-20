@@ -1,0 +1,70 @@
+\documentclass[11pt, a4paper, main=english, ngerman, footlines=1, footheight=14pt]{scrreprt}
+
+% You can enable the following options while you write. Please disable them in the final version.
+\usepackage[
+    coloredrefs,                % references are colored blue
+    notes,                      % notes helpers
+    % grid,                        % show grid and layout frames
+    % pagebreaks                   % break page before every section, sub-section and sub-sub-section
+]{template/template}
+\usepackage{template/custom_commands}    % custom commands
+\usepackage{template/custom_listings}    % custom code languages for listings
+\usepackage{data}               % contains setters for all information required, such as title, names, etc.
+\usepackage[textsize=small]{todonotes}
+\setuptodonotes{inline}
+\usepackage{hyperref} % For customref
+%TODO FIX:
+\glsdisablehyper  %keine hyperlinks weil kein glossar
+
+
+\makeglossaries
+\loadglsentries{parts/_acronyms}
+\loadglsentries{parts/_glossary}
+
+% If you use TikZ, you can define the required libraries here. Example:
+% \usetikzlibrary{arrows, automata}
+
+
+\begin{document}
+
+% Title page
+\input{\getTitlepageFile}
+
+% Intro
+\beginIntro
+\addcontentsline{toc}{chapter}{\protect\numberline{}\langPreface}
+
+\getStatements
+
+% Content lists
+\newpage
+\addcontentsline{toc}{section}{\langTableOfContents}
+
+% Content lists
+% TODO: comment out the ones not needed
+\tableofcontents            \vspace{1.5\baselineskip}
+\listoffigures              \vspace{1.5\baselineskip}
+\listoftables               \vspace{1.5\baselineskip}
+\lstlistoflistings          \vspace{1.5\baselineskip}
+\listofacronyms             \vspace{1.5\baselineskip}
+\myglossary
+
+% Content
+\beginContent
+\include{parts/implementation}
+\include{parts/evaluation}
+\include{parts/conclusion}
+% EN: Include your content files here
+% DE: Füge hier weitere Dateien für deinen Inhalt hinzu
+
+
+% Bibliography
+\clearpage
+\bibliography{parts/_bibliography}
+
+% Appendix
+\beginClosing
+\chapter{\langAppendix}
+\include{parts/appendix.tex}
+
+\end{document}

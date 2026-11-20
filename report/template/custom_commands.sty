@@ -1,0 +1,42 @@
+% Custom colors
+
+\definecolor{myblue}{RGB}{23, 103, 207}
+\definecolor{myred}{RGB}{207, 36, 23}
+\definecolor{mygreen}{RGB}{23, 207, 128}
+
+% Helper commands
+% These commands add functionality and keep the latex code short.
+
+% inline code
+\newcommand{\code}[1]{\mbox{\textls[80]{\texttt{#1}}}}
+
+
+% tilde
+\renewcommand{\tilde}{{\raisebox{.17ex}{$\scriptstyle\mathtt{\sim}$}}}
+
+
+% examples for short commands in tables
+\newcommand{\rowspace}{\noalign{\vskip 2mm}}				% table space between rows
+\newcommand{\col}[3]{\multicolumn{#1}{#2}{#3}}              % shorthand for \multicolumn
+
+
+
+% quote environment with authors
+\RequirePackage{xparse}
+\let\oldquote\quote
+\let\endoldquote\endquote
+\RenewDocumentEnvironment{quote}{o}
+    {\oldquote}
+    {\IfValueT{#1}{\par\hfill(#1)}%
+     \endoldquote\addvspace{\bigskipamount}}
+
+\newcommand{\sample}[1]{
+    \smallskip
+    \setlength{\leftskip}{1em}
+    \emph{#1}\par
+    \setlength{\leftskip}{0em}
+    \smallskip
+}
+
+
+\endinput
