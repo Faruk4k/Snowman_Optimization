@@ -1,0 +1,7 @@
+Image saved to output.ppm
+
+--- Computational Performance Metrics ---
+Image Size: 1024, Num Snowmen: 4, MPI Processes: 36
+Max Local Computation Time (across all ranks): 26.2067 seconds
+Min Local Computation Time (across all ranks): 17.2408 seconds
+Avg Local Computation Time (across all ranks): 19.0387 seconds
