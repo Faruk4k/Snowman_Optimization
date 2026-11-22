@@ -61,17 +61,32 @@ bool RayTracer::intersect_plane(const Vec3& ray_orig, const Vec3& ray_dir, const
     return false;
 }
 
-void RayTracer::render(int rank, int size, std::vector<Color>& out_pixels) {
-    if (!scene) {
-        if(rank == 0) std::cerr << "Scene not set!\n";
-        return;
+void RayTracer::setup() {
+    std::mt19937 rng(12345); // same snowflake field for every tile
+    const int snowflake_count = 75000;
+    snowflakes.resize(snowflake_count);
+
+    std::normal_distribution<double> dist_xz(0.0, 6.0);
+    std::uniform_real_distribution<double> dist_y(-1.0, 25.0);
+
+    for (int i = 0; i < snowflake_count; ++i) {
+        double x_rand = dist_xz(rng);
+        double y_rand = dist_y(rng);
+        double z_rand = dist_xz(rng);
+
+        // Clamping bounds: covering a wide, deep area
+        if (x_rand < -25.0) x_rand = -25.0;
+        else if (x_rand > 25.0) x_rand = 25.0;
+
+        if (z_rand < -25.0) z_rand = -25.0;
+        else if (z_rand > 25.0) z_rand = 25.0;
+
+        snowflakes[i] = Vec3(x_rand, y_rand, z_rand);
     }
+}
 
-    int rows_per_rank = height / size;
-    int start_row = rank * rows_per_rank;
-    int end_row = (rank == size - 1) ? height : start_row + rows_per_rank;
-
-    out_pixels.resize((end_row - start_row) * width);
+void RayTracer::render_tile(int x0, int y0, int w, int h, std::vector<Color>& out_pixels) {
+    out_pixels.resize(w * h);
 
     Vec3 camera_pos(0, 2, 5); // Camera position
     Vec3 camera_lookat(0, 1, 0); // Point camera is looking at
@@ -96,31 +111,9 @@ void RayTracer::render(int rank, int size, std::vector<Color>& out_pixels) {
         }
     }
 
-    std::mt19937 rng(rank + 12345); // Seed RNG for different snowflakes per rank
-    const int snowflake_count = 75000; 
-    std::vector<Vec3> snowflakes(snowflake_count);
-
-    std::normal_distribution<double> dist_xz(0.0, 6.0);
-    std::uniform_real_distribution<double> dist_y(-1.0, 25.0);
-
-    for (int i = 0; i < snowflake_count; ++i) {
-        double x_rand = dist_xz(rng);
-        double y_rand = dist_y(rng);
-        double z_rand = dist_xz(rng);
-
-        // Clamping bounds: covering a wide, deep area
-        if (x_rand < -25.0) x_rand = -25.0;
-        else if (x_rand > 25.0) x_rand = 25.0;
-
-        if (z_rand < -25.0) z_rand = -25.0;
-        else if (z_rand > 25.0) z_rand = 25.0;
-
-        snowflakes[i] = Vec3(x_rand, y_rand, z_rand);
-    }
-
 //change this to tile borders for x - (not sure about y but seems ok)
-    for (int y = start_row; y < end_row; ++y) {
-        for (int x = 0; x < width; ++x) {
+    for (int y = y0; y < y0 + h; ++y) {
+        for (int x = x0; x < x0 + w; ++x) {
             double ndc_x = (x + 0.5) / width;
             double ndc_y = (y + 0.5) / height;
             double px = (2 * ndc_x - 1) * aspect_ratio * scale;
@@ -261,7 +254,7 @@ void RayTracer::render(int rank, int size, std::vector<Color>& out_pixels) {
                 }
             }
 
-            out_pixels[(y - start_row) * width + x] = pixel_color;
+            out_pixels[(y - y0) * w + (x - x0)] = pixel_color;
         }
     }
 }
