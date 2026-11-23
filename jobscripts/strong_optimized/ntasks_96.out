@@ -1,0 +1,9 @@
+Image saved to output.ppm
+
+--- Computational Performance Metrics ---
+Image Size: 1024, Tile Size: 32
+Num Tiles: 1024, Num Snowmen: 4, MPI Processes: 96
+Max Local Computation Time (across all ranks): 7.65233 seconds
+Min Local Computation Time (across all ranks): 7.02001 seconds
+Avg Local Computation Time (across all ranks): 7.38693 seconds
+Rank 0 / Master Local Computation Time: 7.65233 seconds
