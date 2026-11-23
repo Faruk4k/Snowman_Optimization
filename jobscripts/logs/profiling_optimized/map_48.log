@@ -1,0 +1,38 @@
+Waiting for licence
+Linaro Forge 25.0.3 - Linaro MAP
+
+Profiling             : mpirun -np 48 ../../../snowman 1024 4 32
+Linaro Forge sampler  : preload (Express Launch)
+MPI implementation    : Auto-Detect (Open MPI)
+* number of processes : 48
+* number of nodes     : 1
+* MPI wrapper         : preload (precompiled openmpi40-gnu-64) (Express Launch)
+
+
+MAP analysing program...
+MAP gathering samples...
+MAP generated /home/s6frrauu_hpc/Snowman_Optimization/jobscripts/logs/profiling_optimized/snowman_48p_1n_2026-11-23_15-18.map
+
+Linaro MAP profiling summary
+============================
+Profiling time:      15 seconds (between MPI init and finalize)
+Peak process memory: 121450496 B (~116 MiB)
+
+Compute:              96.4%    (14.4s) |=========|
+MPI:                   3.6%     (0.5s) ||
+I/O:                   0.0%     (0.0s) |
+  (based on time on the main thread)
+
+[ERROR] 48 processes have overlapping affinity masks e.g. ranks 1 and 33
+[ERROR] detected compute threads with overlapping affinity masks
+[INFORMATION] consider improving node utilization by running 8 processes per node (1 process per NUMANode).
+Consult Linaro MAP's Thread Affinity Advisor dialog for more details.
+Image saved to output.ppm
+
+--- Computational Performance Metrics ---
+Image Size: 1024, Tile Size: 32
+Num Tiles: 1024, Num Snowmen: 4, MPI Processes: 48
+Max Local Computation Time (across all ranks): 14.8584 seconds
+Min Local Computation Time (across all ranks): 14.2254 seconds
+Avg Local Computation Time (across all ranks): 14.6786 seconds
+Rank 0 / Master Local Computation Time: 14.8576 seconds
