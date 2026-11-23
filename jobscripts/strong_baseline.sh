@@ -7,6 +7,7 @@
 #SBATCH --time=08:00:00
 #SBATCH --job-name=strong_scaling_baseline
 #SBATCH --exclusive
+
 # first non-empty non-comment line ends SBATCH options 
 unset SLURM_EXPORT_ENV
 ## Load modules
