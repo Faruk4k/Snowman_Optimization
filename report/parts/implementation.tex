@@ -1,1 +1,42 @@
 \chapter{Implementation}
+
+\section{Design Discussion}
+
+Before settling on the final master-worker tile decomposition, we discussed several alternative designs for the key open questions below.
+
+\subsection{Tile Distribution}
+\begin{itemize}
+    \item Dynamic tile allocation (as opposed to a static, fixed split of work per process) was already given to us as a requirement of the assignment,the question for us was how to implement it.
+    \begin{itemize}
+        \item The master pre-computes the full list of tiles for the image (row-major scan order) once, up front.
+        \item Tiles are then handed out dynamically, one at a time, as each worker becomes idle, rather than pre-assigning a fixed share of tiles to each worker.
+        \item This addresses the static row-decomposition imbalance we discussed in Assignment 2, where a fixed, equal split of work per rank did not account for the image size not dividing evenly among processes.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Discussion 1- Assembling the Final Image}
+\begin{itemize}
+    \item How would workers report finished tiles back to the master so it can assemble the final output? We discussed two options:
+    \begin{itemize}
+        \item \textbf{Version 1:} each worker allocates a vector the size of the \emph{entire} final image. As it receives tiles, it writes each rendered tile into its correct position in that full-size buffer, leaving the rest unused. At the end, all workers' buffers are combined into the master's final image with a single collective \texttt{MPI\_Gather}/\texttt{MPI\_Gatherv} call.
+        \item \textbf{Version 2:} each worker only ever holds the data for the one tile it is currently responsible for, together with that tile's coordinates/dimensions. Results are sent back and collected via \texttt{MPI\_Gather} at the end, instead of each worker carrying a full-image-sized buffer the whole time.
+    \end{itemize}
+    \item Version 2 was preferred: it avoids every worker allocating a full-image-sized buffer (wasteful memory-wise, especially as process count grows and most of each buffer would stay empty), and keeps the data a worker holds proportional to the tile it is actually working on.
+\end{itemize}
+
+\subsection{Discussion 2- Work Queue Implementation}
+\begin{itemize}
+    \item How should the dynamic tile queue be implemented?
+    \begin{itemize}
+        \item \textbf{Option 1 -- shared memory queue:} we first discussed exposing the tile queue as a shared-memory structure that all workers could pull from directly, using MPI-3's one-sided \texttt{MPI\_Win\_allocate\_shared} windows~\cite{mpi31_standard}.
+        \item This was dropped though- as when Ilhom was implementing it - he found out it to be more complicated than necessary (processes do not share an address space by default in MPI) and would require more complex mechanisms (manual synchronization over the shared window) to implement properly.
+        \item \textbf{Option 2 -- message passing (chosen):} the master holds the authoritative tile list and queue state itself, and workers request/receive tiles purely via point-to-point messages (\texttt{MPI\_Send}/\texttt{MPI\_Recv}). This is a centralized work queue distributed through message passing, not a genuinely shared queue in the memory-sharing sense -- which avoids the synchronization complexity of Option 1.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Snowflake Generation Granularity}
+\begin{itemize}
+    \item We realized with the original implementation we would regenerate the snowflake field for every tile a worker renders.
+    \item This would couple the total amount of work to the number of tiles: more tiles would mean the snowflake field gets regenerated more often, directly working against the goal of using small tiles for good load balancing.
+    \item To avoid this, snowflake generation was separated from tile rendering- now we have each worker generate the snowflake field exactly once (75{,}000 points, fixed seed so every worker produces the identical field), covering the whole image, before it starts processing any tiles -- not once per tile and not once per row.
+\end{itemize}
