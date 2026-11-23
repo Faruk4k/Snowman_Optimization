@@ -1,0 +1,17 @@
+make: Entering directory '/home/s94fdemi_hpc/Snowman-clean'
+rm -f main.o raytracer.o scene.o snowman
+make: Leaving directory '/home/s94fdemi_hpc/Snowman-clean'
+make: Entering directory '/home/s94fdemi_hpc/Snowman-clean'
+mpicxx -O3 -std=c++17 -g -c main.cpp -o main.o
+mpicxx -O3 -std=c++17 -g -c raytracer.cpp -o raytracer.o
+mpicxx -O3 -std=c++17 -g -c scene.cpp -o scene.o
+mpicxx -O3 -std=c++17 -g -o snowman main.o raytracer.o scene.o
+make: Leaving directory '/home/s94fdemi_hpc/Snowman-clean'
+Finished tile_size=8
+Finished tile_size=16
+Finished tile_size=32
+Finished tile_size=64
+Finished tile_size=128
+Finished tile_size=256
+Finished tile_size=512
+Finished tile_size=1024

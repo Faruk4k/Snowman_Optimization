@@ -1,0 +1,104 @@
+make: Entering directory '/home/s94fdemi_hpc/Snowman-clean'
+rm -f main.o raytracer.o scene.o snowman
+make: Leaving directory '/home/s94fdemi_hpc/Snowman-clean'
+make: Entering directory '/home/s94fdemi_hpc/Snowman-clean'
+mpicxx -O3 -std=c++17 -g -c main.cpp -o main.o
+mpicxx -O3 -std=c++17 -g -c raytracer.cpp -o raytracer.o
+mpicxx -O3 -std=c++17 -g -c scene.cpp -o scene.o
+mpicxx -O3 -std=c++17 -g -o snowman main.o raytracer.o scene.o
+make: Leaving directory '/home/s94fdemi_hpc/Snowman-clean'
+Finished 2 processes
+Finished 3 processes
+Finished 4 processes
+Finished 5 processes
+Finished 6 processes
+Finished 7 processes
+Finished 8 processes
+Finished 9 processes
+Finished 10 processes
+Finished 11 processes
+Finished 12 processes
+Finished 13 processes
+Finished 14 processes
+Finished 15 processes
+Finished 16 processes
+Finished 17 processes
+Finished 18 processes
+Finished 19 processes
+Finished 20 processes
+Finished 21 processes
+Finished 22 processes
+Finished 23 processes
+Finished 24 processes
+Finished 25 processes
+Finished 26 processes
+Finished 27 processes
+Finished 28 processes
+Finished 29 processes
+Finished 30 processes
+Finished 31 processes
+Finished 32 processes
+Finished 33 processes
+Finished 34 processes
+Finished 35 processes
+Finished 36 processes
+Finished 37 processes
+Finished 38 processes
+Finished 39 processes
+Finished 40 processes
+Finished 41 processes
+Finished 42 processes
+Finished 43 processes
+Finished 44 processes
+Finished 45 processes
+Finished 46 processes
+Finished 47 processes
+Finished 48 processes
+Finished 49 processes
+Finished 50 processes
+Finished 51 processes
+Finished 52 processes
+Finished 53 processes
+Finished 54 processes
+Finished 55 processes
+Finished 56 processes
+Finished 57 processes
+Finished 58 processes
+Finished 59 processes
+Finished 60 processes
+Finished 61 processes
+Finished 62 processes
+Finished 63 processes
+Finished 64 processes
+Finished 65 processes
+Finished 66 processes
+Finished 67 processes
+Finished 68 processes
+Finished 69 processes
+Finished 70 processes
+Finished 71 processes
+Finished 72 processes
+Finished 73 processes
+Finished 74 processes
+Finished 75 processes
+Finished 76 processes
+Finished 77 processes
+Finished 78 processes
+Finished 79 processes
+Finished 80 processes
+Finished 81 processes
+Finished 82 processes
+Finished 83 processes
+Finished 84 processes
+Finished 85 processes
+Finished 86 processes
+Finished 87 processes
+Finished 88 processes
+Finished 89 processes
+Finished 90 processes
+Finished 91 processes
+Finished 92 processes
+Finished 93 processes
+Finished 94 processes
+Finished 95 processes
+Finished 96 processes
