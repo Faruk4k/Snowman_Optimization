@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.4.20)  23 NOV 2026 20:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.4.20)  24 NOV 2026 12:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1930,7 +1930,7 @@ Package tocbasic Info: character protrusion at toc deactivated on input line 46
 
  [1
 
-]
+] [2]
 Package tocbasic Info: character protrusion at lol deactivated on input line 49
 .
  (main.lol)
@@ -1940,7 +1940,7 @@ Package tocbasic Info: character protrusion at lol deactivated on input line 49
 
 No file main.acr.
 No file main.gls.
-[2
+[3
 
 ]
 \openout2 = `parts/implementation.aux'.
@@ -1956,6 +1956,11 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `pcr' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
+
+
+Package natbib Warning: Citation `mpi31_standard' on page 1 undefined on input 
+line 19.
+
 )
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
@@ -1972,13 +1977,13 @@ l.55 \include{parts/implementation}
 
  (parts/evaluation.tex
 chapter 2.
-<parts/images/strong_baseline.png, id=75, 578.16pt x 361.35pt>
+<parts/images/strong_baseline.png, id=94, 578.16pt x 361.35pt>
 File: parts/images/strong_baseline.png Graphic file (type png)
 <use parts/images/strong_baseline.png>
 Package pdftex.def Info: parts/images/strong_baseline.png  used on input line 6
 .
 (pdftex.def)             Requested size: 455.24411pt x 284.52603pt.
-<parts/images/strong_optimized_max_times.png, id=77, 578.16pt x 361.35pt>
+<parts/images/strong_optimized_max_times.png, id=96, 578.16pt x 361.35pt>
 File: parts/images/strong_optimized_max_times.png Graphic file (type png)
 <use parts/images/strong_optimized_max_times.png>
 Package pdftex.def Info: parts/images/strong_optimized_max_times.png  used on i
@@ -1989,25 +1994,61 @@ Underfull \hbox (badness 10000) in paragraph at lines 15--18
 
  []
 
-<parts/images/tile_size_ntasks_96.png, id=78, 578.16pt x 361.35pt>
+<parts/images/strong_scaling_efficiency_combined.png, id=97, 578.16pt x 361.35p
+t>
+File: parts/images/strong_scaling_efficiency_combined.png Graphic file (type pn
+g)
+<use parts/images/strong_scaling_efficiency_combined.png>
+Package pdftex.def Info: parts/images/strong_scaling_efficiency_combined.png  u
+sed on input line 20.
+(pdftex.def)             Requested size: 455.24411pt x 284.52603pt.
+(parts/table_strong_scaling_short.tex)
+<parts/images/tile_size_ntasks_96.png, id=100, 578.16pt x 361.35pt>
 File: parts/images/tile_size_ntasks_96.png Graphic file (type png)
 <use parts/images/tile_size_ntasks_96.png>
 Package pdftex.def Info: parts/images/tile_size_ntasks_96.png  used on input li
-ne 22.
+ne 29.
 (pdftex.def)             Requested size: 455.24411pt x 284.52603pt.
-) [3
+<parts/images/map_timeline_96p.png, id=101, 871.45575pt x 137.313pt>
+File: parts/images/map_timeline_96p.png Graphic file (type png)
+<use parts/images/map_timeline_96p.png>
+Package pdftex.def Info: parts/images/map_timeline_96p.png  used on input line 
+38.
+(pdftex.def)             Requested size: 455.24411pt x 71.7321pt.
+<parts/images/map_functions_96p.png, id=102, 1145.4795pt x 142.73325pt>
+File: parts/images/map_functions_96p.png Graphic file (type png)
+<use parts/images/map_functions_96p.png>
+Package pdftex.def Info: parts/images/map_functions_96p.png  used on input line
+ 43.
+(pdftex.def)             Requested size: 455.24411pt x 56.7242pt.
+<parts/images/map_timeline_2p.png, id=103, 1909.1325pt x 230.8625pt>
+File: parts/images/map_timeline_2p.png Graphic file (type png)
+<use parts/images/map_timeline_2p.png>
+Package pdftex.def Info: parts/images/map_timeline_2p.png  used on input line 4
+8.
+(pdftex.def)             Requested size: 455.24411pt x 55.04881pt.
+<parts/images/map_functions_2p.png, id=104, 1909.1325pt x 240.9pt>
+File: parts/images/map_functions_2p.png Graphic file (type png)
+<use parts/images/map_functions_2p.png>
+Package pdftex.def Info: parts/images/map_functions_2p.png  used on input line 
+53.
+(pdftex.def)             Requested size: 455.24411pt x 57.44223pt.
+ [3
 
 
 
 
 ] [4 <./parts/images/strong_baseline.png> <./parts/images/strong_optimized_max_
-times.png>] [5 <./parts/images/tile_size_ntasks_96.png>]
+times.png>] [5 <./parts/images/strong_scaling_efficiency_combined.png> <./parts
+/images/tile_size_ntasks_96.png>]
+[6 <./parts/images/map_timeline_96p.png> <./parts/images/map_functions_96p.png>
+ <./parts/images/map_timeline_2p.png> <./parts/images/map_functions_2p.png>])
+[7]
 \openout2 = `parts/conclusion.aux'.
 
-
-(parts/conclusion.tex
+ (parts/conclusion.tex
 chapter 3.
-) [6
+) [8
 
 
 
@@ -2032,17 +2073,12 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-) [7
+) [9
 
 
 
 
-] (main.bbl) [8
-
-
-
-
-]
+] (main.bbl)
 chapter 5.
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.I}) has 
@@ -2054,11 +2090,34 @@ l.70 \include{parts/appendix.tex}
 
 
 
+
+
+
 ]
 \openout2 = `parts/appendix.aux'.
 
+ (parts/appendix.tex
+(parts/table_strong_scaling.tex
+ignored: Infinite glue shrinkage found in box being split
 
-No file parts/appendix.tex.
+pdfTeX warning (ext4): destination with the same identifier (name{page.II}) has
+ been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.107 \end{longtable}
+                      [2
+
+]
+ignored: Infinite glue shrinkage found in box being split
+pdfTeX warning (ext4): destination with the same identifier (name{page.III}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.107 \end{longtable}
+                      [3])) [4]
+
+Package natbib Warning: There were undefined citations.
+
 (main.aux (parts/implementation.aux) (parts/evaluation.aux)
 (parts/conclusion.aux) (parts/contributions.aux) (parts/appendix.aux))
  ***********
@@ -2067,22 +2126,22 @@ L3 programming layer <2026-03-20>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 56252 strings out of 467691
- 1296651 string characters out of 5412083
- 2052375 words of memory out of 5000000
- 84198 multiletter control sequences out of 15000+600000
- 714009 words of font info for 210 fonts, out of 8000000 for 9000
+ 56344 strings out of 467691
+ 1299543 string characters out of 5412083
+ 2099375 words of memory out of 5000000
+ 84253 multiletter control sequences out of 15000+600000
+ 715869 words of font info for 223 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 118i,19n,122p,11209b,630s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 118i,19n,122p,11209b,751s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/faruk.SATAN/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/u
 crr8a.pfb><C:/Users/faruk.SATAN/AppData/Local/Programs/MiKTeX/fonts/type1/urw/p
 alatino/uplb8a.pfb><C:/Users/faruk.SATAN/AppData/Local/Programs/MiKTeX/fonts/ty
 pe1/urw/times/utmb8a.pfb><C:/Users/faruk.SATAN/AppData/Local/Programs/MiKTeX/fo
 nts/type1/urw/times/utmr8a.pfb><C:/Users/faruk.SATAN/AppData/Local/Programs/MiK
 TeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (12 pages, 222793 bytes).
+Output written on main.pdf (17 pages, 537728 bytes).
 PDF statistics:
- 199 PDF objects out of 1000 (max. 8388607)
- 34 named destinations out of 1000 (max. 500000)
- 66732 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 249 PDF objects out of 1000 (max. 8388607)
+ 43 named destinations out of 1000 (max. 500000)
+ 68813 words of extra memory for PDF output out of 74296 (max. 10000000)
 

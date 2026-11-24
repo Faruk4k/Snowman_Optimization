@@ -7,8 +7,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-LOG_DIR = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(__file__), "baseline/")
-OUT_PATH = sys.argv[2] if len(sys.argv) > 2 else os.path.join(os.path.dirname(__file__), "speedup_baseline.png")
+LOG_DIR_UNOPT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(__file__), "baseline/")
+LOG_DIR_OPT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(os.path.dirname(__file__), "baseline/")
+OUT_PATH = sys.argv[3] if len(sys.argv) > 3 else os.path.join(os.path.dirname(__file__), "speedup_baseline.png")
 
 MAX_RE = re.compile(r"Max Local Computation Time \(across all ranks\):\s*([0-9.]+)")
 SIZE_RE = re.compile(r"Image Size: (\d+)")
@@ -36,19 +37,20 @@ def load_data(log_dir):
     return rows
 
 def main():
-    strong = load_data(os.path.join(LOG_DIR, "strong/"))
-    weak = load_data(os.path.join(LOG_DIR, "weak/"))
+    data_unopt = load_data(LOG_DIR_UNOPT)
+    data_opt = load_data(LOG_DIR_OPT)
 
-    ntasks = [d["ntasks"] for d in strong]
-    max_strong = [d["max"] for d in strong]
-    max_weak = [d["max"] for d in weak]
-    sizes_weak = [d["size"] for d in weak]
+    ntasks = [d["ntasks"] for d in data_unopt]
+    max_unopt = [d["max"] for d in data_unopt]
+    max_opt = [d["max"] for d in data_opt]
+    #sizes_weak = [d["size"] for d in weak]
 
-    pps_strong = [1024**2 / s for s in max_strong]
-    pps_weak = [i[0]**2 / i[1] for i in zip(sizes_weak, max_weak)]
+    pps_unopt = [1024**2 / s for s in max_unopt]
+    pps_opt = [1024**2 / s for s in max_opt]
+    #pps_weak = [i[0]**2 / i[1] for i in zip(sizes_weak, max_weak)]
 
-    speedup_strong = [pps_strong[i] / pps_strong[0] for i in range(len(pps_strong))]
-    speedup_weak = [pps_weak[i] / pps_weak[0] for i in range(len(pps_weak))]
+    speedup_unopt = [pps_unopt[i] / pps_unopt[0] for i in range(len(pps_unopt))]
+    speedup_opt = [pps_opt[i] / pps_opt[0] for i in range(len(pps_opt))]
 
     x = np.arange(len(ntasks))
 
@@ -62,15 +64,15 @@ def main():
     fig.patch.set_facecolor(surface)
     ax.set_facecolor(surface)
 
-    ax.plot(x, speedup_strong, lw=2, marker="o")
-    ax.plot(x, speedup_weak, lw=2, marker="^", linestyle="dashed")
+    ax.plot(x, speedup_unopt, lw=2, marker="o")
+    ax.plot(x[1:], speedup_opt, lw=2, marker="^", linestyle="dashed")
 
     last = len(x) - 1
 
     ax.set_xlim(-0.6, len(x) - 1 + 1.0)
     ax.set_xlabel("Number of MPI processes", color=secondary, fontsize=10)
     ax.set_ylabel("Speedup", color=secondary, fontsize=10)
-    ax.set_title("Snowman weak vs. strong scaling", color=ink, fontsize=13, fontweight="bold", pad=14)
+    ax.set_title("Snowman speedup optimized vs. unoptimized", color=ink, fontsize=13, fontweight="bold", pad=14)
 
     ax.grid(True, color=grid, linewidth=1, zorder=0)
     ax.set_axisbelow(True)
@@ -79,7 +81,7 @@ def main():
     ax.spines["bottom"].set_color("#c3c2b7")
     ax.tick_params(colors=secondary, labelsize=9)
 
-    ax.legend(labels=["Strong scaling", "Weak scaling"], loc="upper left", fontsize=9)
+    ax.legend(labels=["Unoptimized", "Optimized"], loc="upper left", fontsize=9)
 
     fig.tight_layout(rect=[0, 0.03, 1, 1])
     fig.savefig(OUT_PATH, facecolor=surface)
