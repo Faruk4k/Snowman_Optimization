@@ -1,0 +1,26 @@
+\begin{table}[h]
+    \centering
+    \begin{tabular}{rrrrrrr}
+        \toprule
+        & \multicolumn{3}{c}{Unoptimized (baseline)} & \multicolumn{3}{c}{Optimized (tile decomposition)} \\
+        \cmidrule(lr){2-4} \cmidrule(lr){5-7}
+        Processes & Time (s) & Speedup & Efficiency & Time (s) & Speedup & Efficiency \\
+        \midrule
+        2 & 361.156 & 1.91 & 95.3\% & 686.233 & 1.00 & 50.2\% \\
+        8 & 98.921 & 6.96 & 87.0\% & 98.446 & 6.99 & 87.4\% \\
+        16 & 49.503 & 13.90 & 86.9\% & 46.182 & 14.90 & 93.1\% \\
+        24 & 34.754 & 19.80 & 82.5\% & 30.184 & 22.80 & 95.0\% \\
+        32 & 24.770 & 27.79 & 86.8\% & 22.503 & 30.59 & 95.6\% \\
+        40 & 29.416 & 23.40 & 58.5\% & 18.061 & 38.11 & 95.3\% \\
+        48 & 22.071 & 31.19 & 65.0\% & 15.064 & 45.69 & 95.2\% \\
+        56 & 20.193 & 34.09 & 60.9\% & 13.345 & 51.58 & 92.1\% \\
+        64 & 12.558 & 54.81 & 85.6\% & 11.473 & 60.00 & 93.7\% \\
+        72 & 17.666 & 38.96 & 54.1\% & 10.399 & 66.19 & 91.9\% \\
+        80 & 46.564 & 14.78 & 18.5\% & 9.153 & 75.20 & 94.0\% \\
+        88 & 40.580 & 16.96 & 19.3\% & 8.388 & 82.05 & 93.2\% \\
+        96 & 44.532 & 15.46 & 16.1\% & 7.652 & 89.95 & 93.7\% \\
+        \bottomrule
+    \end{tabular}
+    \caption{Execution time, speedup and parallel efficiency: baseline vs.\ optimized (selected process counts; full data in Appendix~\ref{tab:strong-scaling-full})}
+    \label{tab:strong-scaling-short}
+\end{table}

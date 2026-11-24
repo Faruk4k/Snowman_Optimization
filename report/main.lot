@@ -1,6 +1,8 @@
 \babel@toc {english}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces Execution time, speedup and parallel efficiency: baseline vs.\ optimized (selected process counts; full data in Appendix~\ref {tab:strong-scaling-full})}}{3}{table.caption.8}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{\ignorespaces Execution time, speedup and parallel efficiency for all measured process counts: baseline vs.\ optimized}}{IV}{table.5.1}%

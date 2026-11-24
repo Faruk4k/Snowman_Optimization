@@ -14,7 +14,14 @@
 
 The spikes in runtime in the unoptimized code come from the way the remainder is handled when the rows of the image can not be evenly distributed among the processes: the entire remainder is given to the last process, leading to an uneven distribution of work. \\
 \\
-Using our tile decomposition, these spikes disappear. This is because the remainder is handled differently. If the image is not evenly divisible by the tile width, the tiles of the image become smaller than the desired tile width. This way the remainder is distributed over multiple processes. 
+Using our tile decomposition, these spikes disappear. This is because the remainder is handled differently. If the image is not evenly divisible by the tile width, the tiles of the image become smaller than the desired tile width. This way the remainder is distributed over multiple processes.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{parts/images/strong_scaling_efficiency_combined.png}
+    \caption{Parallel efficiency vs.\ number of MPI processes: baseline and optimized combined, with the point where optimized permanently overtakes baseline marked}
+\end{figure}
+
+\input{parts/table_strong_scaling_short}
 
 \section{Comparing different tile sizes}
 
@@ -23,4 +30,30 @@ Using our tile decomposition, these spikes disappear. This is because the remain
     \caption{Runtime of optimized code on 96 processes for different tile sizes}
 \end{figure}
 
-We compared different tile sizes while utilizing a whole node (so 96 workers). The runtime is best for a tile width of 8 pixels (7.31 s) and stays relatively stable up to 64 pixels (8.12 s). The runtime rises dramatically for larger tile sizes. This is to be expected, because there are no longer enough tiles to keep all workers busy. The worst case is a tile width of 1024 pixels (689.52 s). Here, there is just one tile which is the size of the entire image, so thw whole image gets processed by one worker. 
+We compared different tile sizes while utilizing a whole node (so 96 workers). The runtime is best for a tile width of 8 pixels (7.31 s) and stays relatively stable up to 64 pixels (8.12 s). The runtime rises dramatically for larger tile sizes. This is to be expected, because there are no longer enough tiles to keep all workers busy. The worst case is a tile width of 1024 pixels (689.52 s). Here, there is just one tile which is the size of the entire image, so thw whole image gets processed by one worker.
+
+\section{Linaro Forge / MAP Profiling}
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{parts/images/map_timeline_96p.png}
+    \caption{Linaro MAP main thread activity timeline for 96 MPI processes}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{parts/images/map_functions_96p.png}
+    \caption{Linaro MAP function breakdown by self time for 96 MPI processes}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{parts/images/map_timeline_2p.png}
+    \caption{Linaro MAP main thread activity timeline for 2 MPI processes}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{parts/images/map_functions_2p.png}
+    \caption{Linaro MAP function breakdown by self time for 2 MPI processes}
+\end{figure}
+
+At 96 processes, perf-report catogorized the run as compute bound: 96.1\% of time is spent computing (7.2s) versus only 3.9\% in MPI (0.3s), out of a 7.5s total run. The thread activity timeline (Figure 2.4) matches this: the green compute bar covers almost the entire run, with only a brief blue (MPI calls time) at the very end as the last workers finish and the master gathers/finalizes. The function breakdown (Figure 2.5) attributes 57.7\% of self time to \texttt{render\_tile} and most of the remainder to \texttt{Vec3} arithmetic, while \texttt{MPI\_Finalize}, \texttt{MPI\_Reduce} and \texttt{MPI\_Recv} together account for under 5\% combined -- great to see against Assignment 2's baseline, where the row decomposition remainder made \texttt{MPI\_Finalize} the single largest cost at 96 processes. Perf-report's CPU breakdown also shows 0.0\% vector numeric ops, meaning the code is still not auto-vectorized -- What we had already seen in assignment 2, but is not a optimization that we try to implement on this assignment. Perf-report flags a thread-affinity issue at this process count: ``96 processes have overlapping affinity masks e.g. ranks 63 and 95'' and ``cores are oversubscribed'' -- same as we had seen in Assignment 2, however, this is for further optimization beyond this assignment's scope.
+
+At 2 processes (1 master, 1 worker), the same run shows a 50.0\%/50.0\% Compute/MPI split (343.4s each out of 686.8s total). This is result of the master-worker design at minimal process count rather than a real inefficiency: Figure 2.6 shows the timeline evenly split between compute (green) and MPI (blue) for the full duration, and Figure 2.7's function breakdown shows \texttt{MPI\_Recv} alone accounts for 50.0\% of self time -- this is idle master blocked waiting on the single worker for the entire run, since there is no other work for it to do. perf-report's point-to-point breakdown confirms this: 99.9\% of MPI time is spent in point-to-point calls, aligned with the master's blocking \texttt{MPI\_Recv} loop rather than any collective communication overhead.
