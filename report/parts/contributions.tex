@@ -16,7 +16,10 @@
         \item We all discussed the design decisions and brainstormed what would be the best actions to take.
         \item Refactored snowflake generation into a one time setup per worker, separated from tile size.
         \item Wrote SLURM job scripts for optimized build- for strong scaling/ profiling \& tile size workload balance.From those ran the strong scaling and tile sweep.
-        \item For the report made a draft for Design Discussion subsection
+        \item For the report wrote the Design Discussion subsection
+        \item Wrote the CSV parser and some of the plotting scripts(building on top of what Franziska had written) used for the strong-scaling time/speedup/efficiency tables. 
+        \item Investigated the parallel-efficiency drop at 48→49 processes, tracing it to socket boundary via profiling. Then wrote the deep dive section in evaluation.
+        \item Wrote the Linaro Forge/Map profiling analysis.
         \end{itemize}
     \item \textbf{Ilhom Khalimov}
     \begin{itemize}
@@ -30,5 +33,12 @@
     \begin{itemize}
         \item Used AI to figure out the bash syntax for computing the image sizes for weak scaling 
         \item Used AI to generate original code for generating plots, but manually modified it a lot
+    \end{itemize}
+    \item \textbf{Faruk Demirel}
+    \begin{itemize}
+        \item Used AI to convert Fransiska's plotting for the other plots that I generated.
+        \item Used AI to polish my explanations and paragraphs in certain sections.
+        \item Used AI to help me with parser & to inlcude my final csv in the report as a table. However, observations were all made by me and by analyzing profiler.
+
     \end{itemize}
 \end{itemize}

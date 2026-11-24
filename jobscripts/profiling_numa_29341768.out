@@ -1,0 +1,12 @@
+make: Entering directory '/home/s94fdemi_hpc/Snowman-clean'
+rm -f main.o raytracer.o scene.o snowman
+make: Leaving directory '/home/s94fdemi_hpc/Snowman-clean'
+make: Entering directory '/home/s94fdemi_hpc/Snowman-clean'
+mpicxx -O3 -std=c++17 -g -c main.cpp -o main.o
+mpicxx -O3 -std=c++17 -g -c raytracer.cpp -o raytracer.o
+mpicxx -O3 -std=c++17 -g -c scene.cpp -o scene.o
+mpicxx -O3 -std=c++17 -g -o snowman main.o raytracer.o scene.o
+make: Leaving directory '/home/s94fdemi_hpc/Snowman-clean'
+Profiling optimized build, 48 processes
+Profiling optimized build, 49 processes
+All NUMA-boundary profiling experiments completed

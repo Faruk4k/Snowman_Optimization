@@ -6,7 +6,7 @@ Before settling on the final master-worker tile decomposition, we discussed seve
 
 \subsection{Tile Distribution}
 
-Dynamic tile allocation (as opposed to a static, fixed split of work per process) was already given to us as a requirement of the assignment; the question for us was how to implement it. The master pre-computes the full list of tiles for the image (row-major scan order) once, up front. Tiles are then handed out dynamically, one at a time, as each worker becomes idle, rather than pre-assigning a fixed share of tiles to each worker. This addresses the static row-decomposition imbalance we discussed in Assignment 2, where a fixed, equal split of work per rank did not account for the image size not dividing evenly among processes. It also balances the work more evenly considering certain parts of the image (e.g. the white ground) are faster to generate.
+Dynamic tile allocation (as opposed to a static, fixed split of work per process) was already given to us as a requirement of the assignment; the question for us was how to implement it. The master pre-computes the full list of tiles for the image once in the beginning. Tiles are then handed out dynamically, one at a time, as each worker becomes idle, rather than pre assigning a fixed share of tiles to each worker. This addresses the static row-decomposition imbalance we discussed in Assignment 2, where a fixed, equal split of work per rank did not account for the image size not dividing evenly among processes. It also balances the work more evenly considering certain parts of the image (e.g. the white ground) are faster to generate.
 
 \subsection{Discussion 1- Assembling the Final Image}
 

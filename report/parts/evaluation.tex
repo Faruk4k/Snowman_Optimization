@@ -14,6 +14,29 @@ We also see that when using few processes, the optimized code is slower. This is
 
 Figure 2.2 shows the parallel efficiencies of both implementations for different numbers of MPI processes. The optimized code starts out lower, but overtakes the unoptimized code at eight processes and then stabilizes at a parallel efficiency of more than 90 \%. For the unoptimized code we can see large fluctuation, which are probably again related to how the remainder is handled. The high parallel efficiency achieved by our implementation is consistent with the speedup seen in Figure 2.3. It linearly increases with increasing number of processes.
 
+\subsection{Deeper Analysis into Optimized Results}
+
+
+One drop stands out in Figure 2.2: the optimized code's efficiency sits at 95--97\% up to 48 processes, then drops to a 91\% from 49 processes onward until it recovers again. Profiling 48 vs.\ 49 processes provided some insight: MPI time rises from 3.6\% (0.5s) to 5.1\% (0.8s), with informing us of that time spent in collective calls (our final \texttt{MPI\_Reduce}) jumping from 41.2\% to 60.3\%, and perf-report now flags ``cores are oversubscribed'' at 49 processes, which was not present at 48. We wondered why this could be until we realized that process 49 sits on the second socket (discovery of the century I know). The single seperate socket process adds latency to the collective reduction that every process has to wait on it, producing the efficiency drop (see Table~\ref{app:numa-boundary}).
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lrr}
+        \toprule
+        & 48 processes & 49 processes \\
+        \midrule
+        Compute & 96.4\% (14.4s) & 94.9\% (14.1s) \\
+        MPI & 3.6\% (0.5s) & 5.1\% (0.8s) \\
+        MPI time in collective calls & 41.2\% & 60.3\% \\
+        MPI time in point-to-point calls & 58.8\% & 39.7\% \\
+        Thread affinity warnings & overlapping affinity masks & overlapping affinity masks, \\
+        & & cores oversubscribed \\
+        \bottomrule
+    \end{tabular}
+    \caption{Linaro Forge perf-report comparison at the 48/49-process NUMA boundary}
+    \label{app:numa-boundary}
+\end{table}
+
 \begin{figure}
     \includegraphics[width=\textwidth]{parts/images/strong_scaling_efficiency_combined.png}
     \caption{Parallel efficiency vs.\ number of MPI processes: baseline and optimized combined, with the point where optimized permanently overtakes baseline marked}
